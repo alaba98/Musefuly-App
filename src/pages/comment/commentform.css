@@ -1,0 +1,107 @@
+.createcomment {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 16px 0;
+    border-radius: 8px;
+  }
+  
+  .createcomment textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .createcomment button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .createcomment button:hover {
+    background-color: #0056b3;
+  }
+
+.comment-form {
+  max-width: 350px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd; 
+  border-radius: 4px; 
+  background-color: #fafafa; 
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+  display: flex; 
+  flex-direction: column; 
+}
+
+
+.comment-form textarea {
+  width: 100%;
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  box-sizing: border-box;
+  margin-bottom: 12px; 
+  resize: vertical; 
+  font-family: Arial, sans-serif; 
+}
+
+
+.comment-form button[type="submit"] {
+  padding: 4px 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 3px; 
+  cursor: pointer;
+  background-color: #ffffff; 
+  color: #333333; 
+  font-size: 12px; 
+  font-family: Arial, sans-serif; 
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s; 
+  align-self: flex-end; 
+}
+
+
+.comment-form button[type="submit"]:hover {
+  background-color: #f0f0f0; 
+  color: #000000; 
+}
+
+
+.comment-form button[type="submit"]:disabled {
+  background-color: #e0e0e0; 
+  color: #a0a0a0;
+  cursor: not-allowed; 
+}
+
+
+.reply-button {
+  padding: 6px 12px; 
+  border: 1px solid #d0d0d0; 
+  border-radius: 4px; 
+  background-color: #ffffff; 
+  color: #28a745; 
+  font-size: 14px; 
+  font-family: Arial, sans-serif; 
+  cursor: pointer; 
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s; 
+}
+
+
+.reply-button:hover {
+  background-color: #f0f0f0; 
+  color: #1e7e34; 
+  border-color: #b0b0b0; 
+}
+
+
+.reply-button:disabled {
+  background-color: #e0e0e0; 
+  color: #a0a0a0;
+  cursor: not-allowed; 
+}

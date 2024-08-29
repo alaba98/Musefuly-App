@@ -1,0 +1,126 @@
+.post {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: relative; 
+  background: #fff; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+.post h2 {
+  font-size: 1.5em; 
+  margin: 0 0 10px; 
+  padding-bottom: 10px; 
+  border-bottom: 1px solid #ddd; 
+}
+
+.post:not(:last-child)::after {
+  content: "";
+  display: block;
+  position: relative;
+  width: 100%; 
+  border-bottom: 1px solid #ddd; 
+  margin-top: 10px; 
+  margin-bottom: 20px; 
+}
+
+.post p {
+  border-bottom: 1px solid #ddd; 
+  padding-bottom: 5px;
+  margin-bottom: 10px; 
+}
+
+.spotify-track {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  margin: 10px 0; 
+}
+
+.spotify-track img {
+  width: 300px; 
+  height: 300px; 
+  margin-bottom: 10px;
+}
+
+.spotify-track p {
+  font-weight: bold; 
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), 0 0 5px rgba(0, 0, 0, 0.3); 
+}
+
+.toggle-button,
+.delete-button,
+.reply-button,
+.hide-reply-button {
+  margin: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: transparent; 
+  color: inherit; 
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.delete-button {
+  color: red; 
+}
+
+.delete-button:hover {
+  background-color: darkred; 
+  color: white
+}
+
+.reply-button {
+  color: green; 
+}
+
+.reply-button:hover {
+  background-color: darkgreen; 
+  color: white; 
+}
+
+.hide-reply-button {
+  color: green;
+}
+
+.hide-reply-button:hover {
+  background-color: darkgreen;
+  color: white; 
+}
+
+.hidden {
+  display: none;
+}
+
+.comments {
+  margin-top: 10px;
+}
+
+.reaction-button {
+  margin: 5px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #f0f0f0; 
+  color: #333;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+}
+
+.reaction-button:hover {
+  background-color: #e0e0e0; 
+  color: #000; 
+}
+
+.reaction-button:active {
+  background-color: #ccc; 
+  color: #000; 
+}
+
+.reaction-button:focus {
+  outline: none; 
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2); 
+}
