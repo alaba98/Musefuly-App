@@ -8,6 +8,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 const cors = require('cors');
 const axios = require('axios');
 const querystring = require('querystring');
@@ -41,6 +42,10 @@ async function getAccessToken() {
 
 const app = express();
 const port = 3001;
+const allowedOrigins = [
+  'http://localhost:5173', // Development
+  'https://musefuly-app-frontend.onrender.com' // Production
+];
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -48,8 +53,14 @@ const pool = new Pool({
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', 
-  credentials: true // Enable credentials (cookies) to be sent
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 
 // Configure session middleware
