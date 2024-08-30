@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './frl.css';
+import API_URL from '../config';
 
 const FriendRequestList = () => {
   const [requests, setRequests] = useState([]);
@@ -10,7 +11,7 @@ const FriendRequestList = () => {
   useEffect(() => {
     const fetchFriendRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/friend-requests', { withCredentials: true });
+        const response = await axios.get(`${API_URL}/friend-requests`, { withCredentials: true });
         setRequests(response.data);
       } catch (error) {
         console.error('Error fetching friend requests:', error);
@@ -24,7 +25,7 @@ const FriendRequestList = () => {
 
   const handleRequestUpdate = async (requestId, status) => {
     try {
-      const response = await axios.post('http://localhost:3001/update-friend-request', { requestId, status }, { withCredentials: true });
+      const response = await axios.post(`${API_URL}/update-friend-request`, { requestId, status }, { withCredentials: true });
       setMessage(response.data.message);
       setTimeout(() => setMessage(''), 1000); 
       setRequests(requests.filter(request => request.id !== requestId));

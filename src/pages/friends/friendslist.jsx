@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './friendslist.css'; 
+import API_URL from '../config';
 
 const FriendsList = () => {
   const [friends, setFriends] = useState([]);
@@ -12,7 +13,7 @@ const FriendsList = () => {
     const fetchFriends = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3001/friends', { withCredentials: true });
+        const response = await axios.get(`${API_URL}/friends`, { withCredentials: true });
         if (Array.isArray(response.data)) {
           setFriends(response.data);
         } else {

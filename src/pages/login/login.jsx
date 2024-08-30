@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './login.css';
+import API_URL from '../config';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -15,7 +16,7 @@ export default function Login() {
 
     try {
       // Send credentials with cookies included
-      await axios.post('http://localhost:3001/login', { username, password }, { withCredentials: true });
+      await axios.post(`${API_URL}/login`, { username, password }, { withCredentials: true });
       navigate('/feed');
     } catch (err) {
       alert(err.response?.data?.error || 'Invalid username or password');

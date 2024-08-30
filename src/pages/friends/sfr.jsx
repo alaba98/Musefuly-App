@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './sfr.css'; 
+import API_URL from '../config';
 
 const SendFriendRequest = () => {
   const [users, setUsers] = useState([]);
@@ -12,7 +13,7 @@ const SendFriendRequest = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/users', { withCredentials: true });
+        const response = await axios.get(`${API_URL}/users`, { withCredentials: true });
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -31,7 +32,7 @@ const SendFriendRequest = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/send-friend-request',
+        `${API_URL}/send-friend-request`,
         { friendId },
         { withCredentials: true }
       );

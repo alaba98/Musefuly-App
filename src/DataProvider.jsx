@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_URL from './pages/config';
 
 function DataProvider() {
   const [data, setData] = useState([]); // Initialize data state as an empty array
@@ -9,7 +10,7 @@ function DataProvider() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('http://localhost:3001/data'); 
+        const response = await axios.get(`${API_URL}/data`); 
         setData(response.data); 
       } catch (error) {
         setError('Error fetching data'); 

@@ -4,6 +4,8 @@ import Post from './post'; // Ensure this component is updated to handle individ
 import CreateComment from '../comment/commentform'; // Component to add comments
 import Comment from '../comment/comment'; // Component to display comments
 import './login.css';
+import API_URL from '../config';
+
 export default function PostDetails({ params }) {
   const postId = params.id; // Extract post ID from route params
   const [post, setPost] = useState(null);
@@ -18,7 +20,7 @@ export default function PostDetails({ params }) {
 
   const fetchPost = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/posts/${postId}`);
+      const response = await axios.get(`${API_URL}/${postId}`);
       setPost(response.data);
     } catch (error) {
       setError('Error fetching post');
@@ -27,7 +29,7 @@ export default function PostDetails({ params }) {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/posts/${postId}/comments`);
+      const response = await axios.get(`${API_URL}/posts/${postId}/comments`);
       setComments(response.data);
     } catch (error) {
       setError('Error fetching comments');

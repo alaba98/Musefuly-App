@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './profile.css';
+import API_URL from '../config';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -11,7 +12,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/me', { withCredentials: true });
+        const response = await axios.get(`${API_URL}/me`, { withCredentials: true });
         setUser(response.data);
       } catch (err) {
         setError('Failed to fetch user data');

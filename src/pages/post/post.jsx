@@ -4,6 +4,7 @@ import Comment from '../comment/comment';
 import CommentForm from '../comment/commentform';
 import SpotifyPlayer from '../spotify/spotifyplayer'; 
 import './post.css';
+import API_URL from '../config';
 
 const emojiList = ['❤️', '👍', '👎', '😂', '😐', '🗑️'];
 
@@ -19,7 +20,7 @@ export default function Post({ id, title, body, author, timestamp, currentUser, 
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/posts/${id}/comments`);
+            const response = await axios.get(`${API_URL}/posts/${id}/comments`);
             setComments(response.data);
         } catch (error) {
             console.error('Error fetching comments:', error);
@@ -28,7 +29,7 @@ export default function Post({ id, title, body, author, timestamp, currentUser, 
 
     const fetchReactions = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/posts/${id}/reactions`);
+            const response = await axios.get(`${API_URL}/posts/${id}/reactions`);
             const reactionCounts = {};
             response.data.forEach(({ emoji, count }) => {
                 reactionCounts[emoji] = count;
@@ -41,7 +42,7 @@ export default function Post({ id, title, body, author, timestamp, currentUser, 
 
     const handleReaction = async (emoji) => {
         try {
-            await axios.post(`http://localhost:3001/posts/${id}/reactions`, { emoji }, { withCredentials: true });
+            await axios.post(`${API_URL}/posts/${id}/reactions`, { emoji }, { withCredentials: true });
             fetchReactions();
         } catch (error) {
             console.error('Error adding reaction:', error);
@@ -54,7 +55,7 @@ export default function Post({ id, title, body, author, timestamp, currentUser, 
 
     const handleDeletePost = async () => {
         try {
-            await axios.delete(`http://localhost:3001/posts/${id}`, { withCredentials: true });
+            await axios.delete(`${API_URL}/posts/${id}`, { withCredentials: true });
             if (onPostDeleted) onPostDeleted(id); // Notify parent component to remove the post
         } catch (error) {
             console.error('Error deleting post:', error);

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './commentform.css'; 
+import API_URL from '../config';
 
 export default function CommentForm({ postId, parentId, onCommentAdded }) {
     const [commentBody, setCommentBody] = useState('');
@@ -12,7 +13,7 @@ export default function CommentForm({ postId, parentId, onCommentAdded }) {
         setIsSubmitting(true);
 
         try {
-            await axios.post('http://localhost:3001/comments', {
+            await axios.post(`${API_URL}/comments`, {
                 postId,
                 parentId,
                 body: commentBody

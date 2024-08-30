@@ -4,6 +4,7 @@ import Post from '../post/post';
 import CreatePost from '../post/createpost';
 import { Link, useNavigate } from 'react-router-dom'; 
 import './feed.css';
+import API_URL from '../config';
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
@@ -20,7 +21,7 @@ export default function Feed() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:3001/posts');
+      const response = await axios.get(`${API_URL}/posts`);
       setPosts(response.data);
     } catch (error) {
       setError('Error fetching posts');
@@ -31,7 +32,7 @@ export default function Feed() {
 
   const fetchCurrentUser = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/me', { withCredentials: true });
+      const response = await axios.get(`${API_URL}/me`, { withCredentials: true });
       setCurrentUser(response.data.username);
     } catch (error) {
       console.error('Error fetching current user:', error);
@@ -44,7 +45,7 @@ export default function Feed() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3001/logout', {}, { withCredentials: true });
+      await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
       navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);

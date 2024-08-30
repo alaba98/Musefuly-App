@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './createpost.css';
+import API_URL from '../config';
 
 export default function CreatePost({ onPostCreated }) {
   const [title, setTitle] = useState('');
@@ -16,7 +17,7 @@ export default function CreatePost({ onPostCreated }) {
     setLoading(true);
 
     try {
-      await axios.post('http://localhost:3001/posts', {
+      await axios.post(`${API_URL}/posts`, {
         title,
         body,
         spotify_track_id: selectedTrack?.id,
@@ -36,7 +37,7 @@ export default function CreatePost({ onPostCreated }) {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/search-spotify', {
+      const response = await axios.get(`${API_URL}/search-spotify`, {
         params: { query: searchQuery },
       });
       setSearchResults(response.data);

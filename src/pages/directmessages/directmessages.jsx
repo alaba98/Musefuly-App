@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import SpotifyPlayer from '../spotify/spotifyplayer'; 
 import './directmessages.css';
+import API_URL from '../config';
 
 export default function DirectMessages() {
   const { friendId } = useParams();
@@ -31,7 +32,7 @@ export default function DirectMessages() {
 
   const fetchCurrentUser = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/me', { withCredentials: true });
+      const response = await axios.get(`${API_URL}/me`, { withCredentials: true });
       setUserId(response.data.id);
     } catch (error) {
       console.error('Fetch current user error:', error);
@@ -42,7 +43,7 @@ export default function DirectMessages() {
     if (!selectedFriendId) return;
 
     try {
-      const response = await axios.get(`http://localhost:3001/direct-messages/${selectedFriendId}`, { withCredentials: true });
+      const response = await axios.get(`${API_URL}/direct-messages/${selectedFriendId}`, { withCredentials: true });
       setMessages(response.data);
     } catch (error) {
       console.error('Fetch messages error:', error);
@@ -51,7 +52,7 @@ export default function DirectMessages() {
 
   const fetchFriends = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/friends', { withCredentials: true });
+      const response = await axios.get(`${API_URL}/friends`, { withCredentials: true });
       setFriends(response.data);
     } catch (error) {
       console.error('Fetch friends error:', error);
@@ -62,7 +63,7 @@ export default function DirectMessages() {
     if (!selectedFriendId) return;
 
     try {
-      await axios.post('http://localhost:3001/direct-messages', {
+      await axios.post(`${API_URL}/direct-messages`, {
         receiverId: selectedFriendId,
         message: newMessage,
         spotify_track_id: selectedTrack?.id,
@@ -79,7 +80,7 @@ export default function DirectMessages() {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/search-spotify', {
+      const response = await axios.get(`${API_URL}/search-spotify`, {
         params: { query: searchQuery },
       });
       setSearchResults(response.data);

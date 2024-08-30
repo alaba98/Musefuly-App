@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import CommentForm from './commentform';
 import './comment.css';
+import API_URL from '../config';
 
 export default function Comment({ comment, onCommentAdded, currentUser, level = 0 }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
@@ -17,7 +18,7 @@ export default function Comment({ comment, onCommentAdded, currentUser, level = 
 
   const handleDeleteComment = async () => {
     try {
-      await axios.delete(`http://localhost:3001/comments/${comment.id}`, { withCredentials: true });
+      await axios.delete(`${API_URL}/comments/${comment.id}`, { withCredentials: true });
       onCommentAdded(); // Refresh 
     } catch (error) {
       console.error('Error deleting comment:', error);
