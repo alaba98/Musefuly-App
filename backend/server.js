@@ -41,15 +41,23 @@ async function getAccessToken() {
 }
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 const allowedOrigins = [
   'http://localhost:5173', // Development
   'https://musefuly-app-frontend.onrender.com' // Production
 ];
 
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // This option is often set to false when using a self-signed certificate.
+  },
 });
+
+pool.connect()
+  .then(() => console.log('Connected to the database'))
+  .catch(err => console.error('Database connection error:', err.stack));
 
 app.use(express.json());
 app.use(cors({
@@ -65,10 +73,16 @@ app.use(cors({
 
 // Configure session middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET, // Replace with a strong secret
+  secret: process.env.SESSION_SECRET, 
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } 
+  store: new pgSession({
+    pool: pool, 
+    // tableName: 'session' 
+  }),
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production' 
+  }
 }));
 
 // Default route or health check
