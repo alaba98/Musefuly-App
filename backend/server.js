@@ -1,8 +1,8 @@
 require('dotenv').config();
 console.log('DATABASE_URL:', process.env.DATABASE_URL);
 console.log('SESSION_SECRET:', process.env.SESSION_SECRET);
-console.log('SPOTIFY_CLIENT_ID:', import.meta.env.VITE_SPOTIFY_CLIENT_ID);
-console.log('SPOTIFY_CLIENT_SECRET:', import.meta.env.VITE_SPOTIFY_CLIENT_SECRET);
+console.log('SPOTIFY_CLIENT_ID:', process.env.VITE_SPOTIFY_CLIENT_ID);
+console.log('SPOTIFY_CLIENT_SECRET:', process.env.VITE_SPOTIFY_CLIENT_SECRET);
 
 const express = require('express');
 const { Pool } = require('pg');
@@ -13,8 +13,8 @@ const cors = require('cors');
 const axios = require('axios');
 const querystring = require('querystring');
 
-const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID
-const client_secret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
+const client_id = process.env.VITE_SPOTIFY_CLIENT_ID;
+const client_secret = process.env.VITE_SPOTIFY_CLIENT_SECRET;
 
 // Get Spotify Access Token
 async function getAccessToken() {
