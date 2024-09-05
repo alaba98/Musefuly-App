@@ -51,7 +51,7 @@ const allowedOrigins = [
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // This option is often set to false when using a self-signed certificate.
+    rejectUnauthorized: false, 
   },
 });
 
