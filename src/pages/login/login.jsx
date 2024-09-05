@@ -16,17 +16,10 @@ export default function Login() {
 
     try {
       // Send credentials with cookies included
-      const response = await axios.post(`${API_URL}/login`, { username, password }, { withCredentials: true });
-      
-      // Inspect the response to understand its structure
-      console.log('Login API Response:', response.data);
-
-      // Redirect user to feed after successful login
+      await axios.post(`${API_URL}/login`, { username, password }, { withCredentials: true });
       navigate('/feed');
     } catch (err) {
-      // Handle errors, including response and error messages
-      const errorMessage = err.response?.data?.error || 'Invalid username or password';
-      alert(errorMessage);
+      alert(err.response?.data?.error || 'Invalid username or password');
     } finally {
       setLoading(false);
     }

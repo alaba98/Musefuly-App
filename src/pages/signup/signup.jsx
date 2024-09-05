@@ -20,10 +20,9 @@ export default function SignUp() {
       alert(response.data.message || 'Registration successful. Redirecting...');
       setTimeout(() => navigate('/login'), 2000); 
     } catch (err) {
-      // Handle errors based on the server response
-      const errorResponse = err.response?.data;
-      if (errorResponse) {
-        switch (errorResponse.error) {
+      // Provide specific error handling based on the server response
+      if (err.response && err.response.data) {
+        switch (err.response.data.error) {
           case 'Username already exists':
             alert('This username is already taken. Please choose a different one.');
             break;
@@ -31,7 +30,7 @@ export default function SignUp() {
             alert('This email is already registered. Please use a different email.');
             break;
           default:
-            alert(errorResponse.message || 'Error registering user. Please try again.');
+            alert('Error registering user. Please try again.');
         }
       } else {
         alert('Error registering user. Please try again.');
@@ -58,21 +57,18 @@ export default function SignUp() {
             placeholder='Username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
           />
           <input
             type="email"
             placeholder='Email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
           <input
             type="password"
             placeholder='Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
           <button type='submit' className='btn' disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
