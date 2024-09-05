@@ -22,8 +22,14 @@ export default function Feed() {
     setLoading(true);
     try {
       const response = await axios.get(`${API_URL}/posts`);
-      setPosts(response.data);
+      console.log('Posts API Response:', response.data);
+
+      // Adjust this based on actual API response format
+      // Assuming response.data is an object with a posts key or is already an array
+      const postsData = Array.isArray(response.data) ? response.data : response.data.posts || [];
+      setPosts(postsData);
     } catch (error) {
+      console.error('Error fetching posts:', error);
       setError('Error fetching posts');
     } finally {
       setLoading(false);
@@ -33,7 +39,11 @@ export default function Feed() {
   const fetchCurrentUser = async () => {
     try {
       const response = await axios.get(`${API_URL}/me`, { withCredentials: true });
-      setCurrentUser(response.data.username);
+      console.log('Current User API Response:', response.data);
+      
+      // Adjust this based on actual API response format
+      // Assuming response.data contains username directly
+      setCurrentUser(response.data.username || 'Guest');
     } catch (error) {
       console.error('Error fetching current user:', error);
     }
