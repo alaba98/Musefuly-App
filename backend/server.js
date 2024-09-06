@@ -78,12 +78,15 @@ app.use(session({
   saveUninitialized: true,
   store: new pgSession({
     pool: pool, 
-    // tableName: 'session' 
   }),
   cookie: { 
-    secure: process.env.NODE_ENV === 'production' 
+    secure: process.env.NODE_ENV === 'production', // Ensure cookie is sent over HTTPS in production
+    httpOnly: true, // Prevent client-side access
+    sameSite: 'lax', // Helps with CSRF protection
+    maxAge: 24 * 60 * 60 * 1000 // Set cookie expiration
   }
 }));
+
 
 // Default route or health check
 app.get('/', (req, res) => {
