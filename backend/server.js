@@ -550,6 +550,9 @@ app.post('/direct-messages', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+app.set('trust proxy', 1); // Trust the first proxy in production (e.g., Render)
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
