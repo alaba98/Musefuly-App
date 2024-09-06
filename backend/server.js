@@ -73,17 +73,18 @@ app.use(cors({
 
 // Configure session middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET, 
+  store: new pgSession({
+    pool: pool,
+    tableName: 'session' 
+  }),
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: new pgSession({
-    pool: pool, 
-  }),
-  cookie: { 
-    secure: process.env.NODE_ENV === 'production', // Ensure cookie is sent over HTTPS in production
-    httpOnly: true, // Prevent client-side access
-    sameSite: 'lax', // Helps with CSRF protection
-    maxAge: 24 * 60 * 60 * 1000 // Set cookie expiration
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
 
