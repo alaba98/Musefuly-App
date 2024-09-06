@@ -61,15 +61,10 @@ pool.connect()
 
 app.use(express.json());
 app.use(cors({
-  origin: (origin, callback) => {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: '*',
   credentials: true
 }));
+
 
 // Configure session middleware
 app.use(session({
