@@ -12,20 +12,9 @@ const pgSession = require('connect-pg-simple')(session);
 const cors = require('cors');
 const axios = require('axios');
 const querystring = require('querystring');
-const redis = require('redis');
-const RedisStore = require('connect-redis').default;
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-
-
-const redisClient = redis.createClient({
-  url: 'redis://red-cre57qbv2p9s73cqk8g0:6379'
-});
-
-redisClient.connect()
-  .then(() => console.log('Connected to Redis'))
-  .catch(err => console.error('Redis connection error:', err));
 
 // Get Spotify Access Token
 async function getAccessToken() {
@@ -84,8 +73,11 @@ app.use(cors({
 
 // Configure session middleware
 app.use(session({
-  store: new RedisStore({ client: redisClient }),
-  secret: process.env.SESSION_SECRET, // Replace with your actual session secret
+  store: new pgSession({
+    pool: pool,
+    tableName: 'session' 
+  }),
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
