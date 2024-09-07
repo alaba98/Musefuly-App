@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Login from '../pages/login/login';
 import Signup from '../pages/signup/signup';
@@ -15,6 +15,7 @@ import NotFound from '../pages/notfound/notfound';
 
 export default function Layout() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -23,25 +24,31 @@ export default function Layout() {
                 setIsAuthenticated(!!response.data.username); // Adjust based on your response
             } catch (error) {
                 setIsAuthenticated(false);
+            } finally {
+                setLoading(false);
             }
         };
 
         checkAuth();
     }, []);
 
+    if (loading) {
+        return <div>Loading...</div>; // Show a loading indicator while checking authentication
+    }
+
     // Define routes based on authentication
     const router = createBrowserRouter([
         {
             path: '/',  
-            element: isAuthenticated ? <RedirectToFeed /> : <Home />,  
+            element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,  
         },
         {
             path: '/login',
-            element: isAuthenticated ? <RedirectToFeed /> : <Login />,  
+            element: isAuthenticated ? <Navigate to="/feed" /> : <Login />,  
         },
         {
             path: '/signup',
-            element: isAuthenticated ? <RedirectToFeed /> : <Signup />,  
+            element: isAuthenticated ? <Navigate to="/feed" /> : <Signup />,  
         },
         {
             path: '/home',
@@ -84,15 +91,6 @@ export default function Layout() {
             element: <NotFound />, 
         }
     ]);
-
-    // Redirect component
-    function RedirectToFeed() {
-        useEffect(() => {
-            window.location.href = '/feed';
-        }, []);
-
-        return null; // Render nothing
-    }
 
     return (
         <RouterProvider router={router} />
