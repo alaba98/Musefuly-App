@@ -53,7 +53,7 @@ export default function Layout() {
     },
     {
       path: '/home',
-      element: isAuthenticated ? <Home /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <Feed /> : <Navigate to="/home" />,
     },
     {
       path: '/profile',
