@@ -45,16 +45,12 @@ export default function Feed() {
 
   const handleLogout = async () => {
     try {
-        await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
-        // After logout, set the authentication state to false
-        setIsAuthenticated(false); // This should be part of the Layout or global state
-        navigate('/login');
+      await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
+      navigate('/login');
     } catch (error) {
-        console.error('Logout error:', error);
+      console.error('Logout error:', error);
     }
-};
-
-
+  };
 
   return (
     <div className="feed-container">
