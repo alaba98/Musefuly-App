@@ -18,7 +18,6 @@ const bcrypt = require('bcrypt');
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-// Get Spotify Access Token
 async function getAccessToken() {
   const tokenUrl = 'https://accounts.spotify.com/api/token';
   const authOptions = {
@@ -73,7 +72,7 @@ app.use(cors({
 }));
 
 let sessionStore;
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.REDIS_URL) {
   // Set up Redis client
   const redisClient = new Redis({
     url: process.env.REDIS_URL, // Ensure REDIS_URL is set in production environment
