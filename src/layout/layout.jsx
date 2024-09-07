@@ -12,6 +12,7 @@ import SendFriendRequest from '../pages/friends/sfr';
 import FriendsList from '../pages/friends/friendslist';
 import DirectMessages from '../pages/directmessages/directmessages'; 
 import NotFound from '../pages/notfound/notfound';
+import API_URL from '../pages/config';
 
 export default function Layout() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
