@@ -11,7 +11,7 @@ import SendFriendRequest from '../pages/friends/sfr';
 import FriendsList from '../pages/friends/friendslist';
 import DirectMessages from '../pages/directmessages/directmessages';
 import NotFound from '../pages/notfound/notfound';
-import AuthCheck from '..pages/auth/authcheck'; // Adjust this path if needed
+import AuthCheck from '../pages/auth/authcheck'; // Adjust this path if needed
 
 const router = createBrowserRouter([
   {
