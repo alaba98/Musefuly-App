@@ -68,7 +68,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: false
+  credentials: true
 }));
 
 // Configure session middleware
