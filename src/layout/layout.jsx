@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import axios from 'axios';
-import API_URL from '../pages/config';
-
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from '../pages/login/login';
 import Signup from '../pages/signup/signup';
 import Home from '../pages/home/home';
@@ -10,95 +7,72 @@ import Profile from '../pages/profile/profile';
 import Feed from '../pages/feed/feed';
 import CreatePost from '../pages/post/createpost';
 import FriendRequestList from '../pages/friends/frl';
-import SendFriendRequest from '../pages/friends/sfr'; 
+import SendFriendRequest from '../pages/friends/sfr';
 import FriendsList from '../pages/friends/friendslist';
-import DirectMessages from '../pages/directmessages/directmessages'; 
+import DirectMessages from '../pages/directmessages/directmessages';
 import NotFound from '../pages/notfound/notfound';
+import AuthCheck from '..pages/auth/authcheck'; // Adjust this path if needed
 
-export default function Layout() {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/me`, { withCredentials: true });
-        setIsAuthenticated(!!response.data.username); // Adjust based on your response
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
-      setIsAuthenticated(false);
-    } catch (error) {
-      console.error('Logout failed', error);
-    }
-  };
-
-  if (isAuthenticated === null) {
-    // Optionally render a loading spinner or similar while checking authentication
-    return <div>Loading...</div>;
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <AuthCheck>
+        <Home />
+      </AuthCheck>
+    ),
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
+  {
+    path: '/home',
+    element: <Home />,
+  },
+  {
+    path: '/profile',
+    element: <PrivateRoute element={<Profile />} />,
+  },
+  {
+    path: '/feed',
+    element: <PrivateRoute element={<Feed />} />,
+  },
+  {
+    path: '/createpost',
+    element: <PrivateRoute element={<CreatePost />} />,
+  },
+  {
+    path: '/frl',
+    element: <PrivateRoute element={<FriendRequestList />} />,
+  },
+  {
+    path: '/sfr',
+    element: <PrivateRoute element={<SendFriendRequest />} />,
+  },
+  {
+    path: '/friendslist',
+    element: <PrivateRoute element={<FriendsList />} />,
+  },
+  {
+    path: '/directmessages',
+    element: <PrivateRoute element={<DirectMessages />} />,
+  },
+  {
+    path: '/directmessages/:friendId',
+    element: <PrivateRoute element={<DirectMessages />} />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   }
+]);
 
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
-    },
-    {
-      path: '/login',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Login setIsAuthenticated={setIsAuthenticated} />,
-    },
-    {
-      path: '/signup',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Signup />,
-    },
-    {
-      path: '/home',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
-    },
-    {
-      path: '/profile',
-      element: isAuthenticated ? <Profile /> : <Navigate to="/login" />,
-    },
-    {
-      path: '/feed',
-      element: isAuthenticated ? <Feed /> : <Navigate to="/login" />,
-    },
-    {
-      path: '/createpost',
-      element: isAuthenticated ? <CreatePost /> : <Navigate to="/login" />,
-    },
-    {
-      path: '/frl',
-      element: isAuthenticated ? <FriendRequestList /> : <Navigate to="/login" />,
-    },
-    {
-      path: '/sfr',
-      element: isAuthenticated ? <SendFriendRequest /> : <Navigate to="/login" />,
-    },
-    {
-      path: '/friendslist',
-      element: isAuthenticated ? <FriendsList /> : <Navigate to="/login" />,
-    },
-    {
-      path: '/directmessages',
-      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/login" />,
-    },
-    {
-      path: '/directmessages/:friendId',
-      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/login" />,
-    },
-    {
-      path: '*',
-      element: <NotFound />,
-    }
-  ]);
-
+export default function App() {
   return (
     <RouterProvider router={router} />
   );
