@@ -11,7 +11,7 @@ import SendFriendRequest from '../pages/friends/sfr';
 import FriendsList from '../pages/friends/friendslist';
 import DirectMessages from '../pages/directmessages/directmessages'; 
 import NotFound from '../pages/notfound/notfound';
-import API_URL from '../config';
+import API_URL from '../pages/config';
 import axios from 'axios';
 
 export default function Layout() {
