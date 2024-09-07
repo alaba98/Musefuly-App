@@ -1,17 +1,14 @@
-// Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './login.css';
 import API_URL from '../config';
-import { useAuth } from '../auth/authcontext'; // Import useAuth
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth(); // Access setIsAuthenticated
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +17,6 @@ export default function Login() {
     try {
       // Send credentials with cookies included
       await axios.post(`${API_URL}/login`, { username, password }, { withCredentials: true });
-      setIsAuthenticated(true); // Set authentication status
       navigate('/feed');
     } catch (err) {
       alert(err.response?.data?.error || 'Invalid username or password');
