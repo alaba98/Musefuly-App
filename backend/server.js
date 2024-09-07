@@ -23,7 +23,9 @@ const redisClient = redis.createClient({
   url: 'redis://red-cre57qbv2p9s73cqk8g0:6379'
 });
 
-redisClient.connect().catch(console.error);
+redisClient.connect()
+  .then(() => console.log('Connected to Redis'))
+  .catch(err => console.error('Redis connection error:', err));
 
 // Get Spotify Access Token
 async function getAccessToken() {
