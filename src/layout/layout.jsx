@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createBrowserRouter, RouterProvider, Navigate, useNavigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import Login from '../pages/login/login';
 import Signup from '../pages/signup/signup';
 import Home from '../pages/home/home';
@@ -17,7 +17,6 @@ import axios from 'axios';
 export default function Layout() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // `null` to signify loading
   const [loading, setLoading] = useState(true); // For tracking the loading state
-  const navigate = useNavigate(); // For programmatic navigation
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -35,12 +34,6 @@ export default function Layout() {
     checkAuth();
   }, []);
 
-  useEffect(() => {
-    if (!loading && isAuthenticated) {
-      navigate('/feed'); // Redirect to feed page if authenticated
-    }
-  }, [isAuthenticated, loading, navigate]);
-
   if (loading) {
     return <div>Loading...</div>; // Or a spinner/loading animation
   }
@@ -52,47 +45,47 @@ export default function Layout() {
     },
     {
       path: '/login',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Login />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
     },
     {
       path: '/signup',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Signup />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
     },
     {
       path: '/home',
-      element: isAuthenticated ? <Home /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <Feed /> : <Navigate to="/home" />,
     },
     {
       path: '/profile',
-      element: isAuthenticated ? <Profile /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <Profile /> : <Navigate to="/home" />,
     },
     {
       path: '/feed',
-      element: isAuthenticated ? <Feed /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <Feed /> : <Navigate to="/home" />,
     },
     {
       path: '/createpost',
-      element: isAuthenticated ? <CreatePost /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <CreatePost /> : <Navigate to="/home" />,
     },
     {
       path: '/frl',
-      element: isAuthenticated ? <FriendRequestList /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <FriendRequestList /> : <Navigate to="/home" />,
     },
     {
       path: '/sfr',
-      element: isAuthenticated ? <SendFriendRequest /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <SendFriendRequest /> : <Navigate to="/home" />,
     },
     {
       path: '/friendslist',
-      element: isAuthenticated ? <FriendsList /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <FriendsList /> : <Navigate to="/home" />,
     },
     {
       path: '/directmessages',
-      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/home" />,
     },
     {
       path: '/directmessages/:friendId',
-      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/home" />,
     },
     {
       path: '*',
