@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import API_URL from '../config';
+import API_URL from '../pages/config';
 
 import Login from '../pages/login/login';
 import Signup from '../pages/signup/signup';
