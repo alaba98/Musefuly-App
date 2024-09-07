@@ -30,6 +30,15 @@ export default function Layout() {
     checkAuth();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
+  };
+
   if (isAuthenticated === null) {
     // Optionally render a loading spinner or similar while checking authentication
     return <div>Loading...</div>;
@@ -42,7 +51,7 @@ export default function Layout() {
     },
     {
       path: '/login',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Login />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Login setIsAuthenticated={setIsAuthenticated} />,
     },
     {
       path: '/signup',
