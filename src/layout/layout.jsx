@@ -1,5 +1,6 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom';
+import axios from 'axios';
 import Login from '../pages/login/login';
 import Signup from '../pages/signup/signup';
 import Home from '../pages/home/home';
@@ -13,19 +14,34 @@ import DirectMessages from '../pages/directmessages/directmessages';
 import NotFound from '../pages/notfound/notfound';
 
 export default function Layout() {
-    // Router setup
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/me`, { withCredentials: true });
+                setIsAuthenticated(!!response.data.username); // Adjust based on your response
+            } catch (error) {
+                setIsAuthenticated(false);
+            }
+        };
+
+        checkAuth();
+    }, []);
+
+    // Define routes based on authentication
     const router = createBrowserRouter([
         {
-           path: '/',  
-           element: <Home />,  
+            path: '/',  
+            element: isAuthenticated ? <RedirectToFeed /> : <Home />,  
         },
         {
             path: '/login',
-            element: <Login />,  
+            element: isAuthenticated ? <RedirectToFeed /> : <Login />,  
         },
         {
             path: '/signup',
-            element: <Signup />,  
+            element: isAuthenticated ? <RedirectToFeed /> : <Signup />,  
         },
         {
             path: '/home',
@@ -68,6 +84,15 @@ export default function Layout() {
             element: <NotFound />, 
         }
     ]);
+
+    // Redirect component
+    function RedirectToFeed() {
+        useEffect(() => {
+            window.location.href = '/feed';
+        }, []);
+
+        return null; // Render nothing
+    }
 
     return (
         <RouterProvider router={router} />
