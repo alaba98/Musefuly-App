@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { AuthProvider } from '../pages/auth/authcontext';
 import Login from '../pages/login/login';
 import Signup from '../pages/signup/signup';
 import Home from '../pages/home/home';
@@ -70,6 +71,8 @@ export default function Layout() {
     ]);
 
     return (
-        <RouterProvider router={router} />
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
     );
 }
