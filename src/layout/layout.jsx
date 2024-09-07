@@ -41,11 +41,11 @@ export default function Layout() {
     },
     {
       path: '/login',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Login />,
     },
     {
       path: '/signup',
-      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Signup />,
     },
     {
       path: '/home',
