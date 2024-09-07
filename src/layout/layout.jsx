@@ -36,35 +36,35 @@ const router = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: <PrivateRoute element={<Profile />} />,
+    element: <Profile />,
   },
   {
     path: '/feed',
-    element: <PrivateRoute element={<Feed />} />,
+    element: <Feed />,
   },
   {
     path: '/createpost',
-    element: <PrivateRoute element={<CreatePost />} />,
+    element: <CreatePost />,
   },
   {
     path: '/frl',
-    element: <PrivateRoute element={<FriendRequestList />} />,
+    element: <FriendRequestList />,
   },
   {
     path: '/sfr',
-    element: <PrivateRoute element={<SendFriendRequest />} />,
+    element: <SendFriendRequest />,
   },
   {
     path: '/friendslist',
-    element: <PrivateRoute element={<FriendsList />} />,
+    element: <FriendsList />,
   },
   {
     path: '/directmessages',
-    element: <PrivateRoute element={<DirectMessages />} />,
+    element: <DirectMessages />,
   },
   {
     path: '/directmessages/:friendId',
-    element: <PrivateRoute element={<DirectMessages />} />,
+    element: <DirectMessages />,
   },
   {
     path: '*',
