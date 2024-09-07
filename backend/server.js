@@ -6,12 +6,14 @@ console.log('SPOTIFY_CLIENT_SECRET:', process.env.SPOTIFY_CLIENT_SECRET);
 
 const express = require('express');
 const { Pool } = require('pg');
-const bcrypt = require('bcrypt');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
+const RedisStore = require('connect-redis').default;
 const cors = require('cors');
 const axios = require('axios');
 const querystring = require('querystring');
+const Redis = require('ioredis');
+const bcrypt = require('bcrypt');
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -47,7 +49,6 @@ const allowedOrigins = [
   'https://musefuly-app-frontend.onrender.com' // Production
 ];
 
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -71,20 +72,34 @@ app.use(cors({
   credentials: true
 }));
 
+let sessionStore;
+if (process.env.NODE_ENV === 'production') {
+  // Set up Redis client
+  const redisClient = new Redis({
+    url: process.env.REDIS_URL, // Ensure REDIS_URL is set in production environment
+  });
+  redisClient.on('error', (err) => console.error('Redis client error:', err));
+
+  sessionStore = new RedisStore({ client: redisClient });
+} else {
+  // Use PostgreSQL store in local development
+  sessionStore = new pgSession({
+    pool: pool,
+    tableName: 'session'
+  });
+}
+
 // Configure session middleware
 app.use(session({
-  store: new pgSession({
-    pool: pool,
-    tableName: 'session' 
-  }),
+  store: sessionStore,
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: false,
+    secure: process.env.NODE_ENV === 'production', // secure cookies in production
     httpOnly: true,
     sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
 
