@@ -41,11 +41,11 @@ export default function Layout() {
     },
     {
       path: '/login',
-      element: <Login />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
     },
     {
       path: '/signup',
-      element: <Signup />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
     },
     {
       path: '/home',
@@ -53,35 +53,35 @@ export default function Layout() {
     },
     {
       path: '/profile',
-      element: isAuthenticated ? <Profile /> : <Navigate to="/login" />,
+      element: <Profile /> 
     },
     {
       path: '/feed',
-      element: isAuthenticated ? <Feed /> : <Navigate to="/login" />,
+      element: <Feed />
     },
     {
       path: '/createpost',
-      element: isAuthenticated ? <CreatePost /> : <Navigate to="/login" />,
+      element: <CreatePost /> 
     },
     {
       path: '/frl',
-      element: isAuthenticated ? <FriendRequestList /> : <Navigate to="/login" />,
+      element: <FriendRequestList /> 
     },
     {
       path: '/sfr',
-      element: isAuthenticated ? <SendFriendRequest /> : <Navigate to="/login" />,
+      element: <SendFriendRequest /> 
     },
     {
       path: '/friendslist',
-      element: isAuthenticated ? <FriendsList /> : <Navigate to="/login" />,
+      element: <FriendsList />
     },
     {
       path: '/directmessages',
-      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/login" />,
+      element: <DirectMessages /> 
     },
     {
       path: '/directmessages/:friendId',
-      element: isAuthenticated ? <DirectMessages /> : <Navigate to="/login" />,
+      element:<DirectMessages /> 
     },
     {
       path: '*',
