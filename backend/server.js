@@ -13,7 +13,7 @@ const cors = require('cors');
 const axios = require('axios');
 const querystring = require('querystring');
 const redis = require('redis');
-const RedisStore = require('connect-redis')(session);
+const RedisStore = require('connect-redis').default;
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
