@@ -13,12 +13,17 @@ const cors = require('cors');
 const axios = require('axios');
 const querystring = require('querystring');
 const redis = require('redis');
+const RedisStore = require('connect-redis')(session);
 
-// Initialize environment variables
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redisUrl = process.env.REDIS_URL;
-const isProduction = process.env.NODE_ENV === 'production';
+
+
+const redisClient = redis.createClient({
+  url: 'redis://red-cre57qbv2p9s73cqk8g0:6379'
+});
+
+redisClient.connect().catch(console.error);
 
 // Get Spotify Access Token
 async function getAccessToken() {
@@ -51,7 +56,7 @@ const allowedOrigins = [
   'https://musefuly-app-frontend.onrender.com' // Production
 ];
 
-// Set up PostgreSQL pool
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -62,25 +67,6 @@ const pool = new Pool({
 pool.connect()
   .then(() => console.log('Connected to the database'))
   .catch(err => console.error('Database connection error:', err.stack));
-
-// Set up Redis client only in production
-let redisClient;
-if (isProduction && redisUrl) {
-  redisClient = redis.createClient({
-    url: redisUrl
-  });
-
-  redisClient.on('error', (err) => {
-    console.error('Redis error:', err);
-  });
-
-  redisClient.connect().catch(console.error);
-}
-
-const sessionStore = isProduction ? new pgSession({
-  pool: pool,
-  tableName: 'session'
-}) : undefined;
 
 app.use(express.json());
 app.use(cors({
@@ -96,12 +82,12 @@ app.use(cors({
 
 // Configure session middleware
 app.use(session({
-  store: sessionStore,
-  secret: process.env.SESSION_SECRET,
+  store: new RedisStore({ client: redisClient }),
+  secret: process.env.SESSION_SECRET, // Replace with your actual session secret
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: isProduction,
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     sameSite: 'lax',
     maxAge: 24 * 60 * 60 * 1000
