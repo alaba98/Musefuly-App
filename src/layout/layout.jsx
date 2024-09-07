@@ -41,15 +41,15 @@ export default function Layout() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: isAuthenticated ? <Navigate to="/home" /> : <Home />,
+      element: isAuthenticated ? <Navigate to="/feed" /> : <Home />,
     },
     {
       path: '/login',
-      element: isAuthenticated ? <Navigate to="/home" /> : <Login />,
+      element: <Login />,
     },
     {
       path: '/signup',
-      element: isAuthenticated ? <Navigate to="/home" /> : <Signup />,
+      element: <Signup />,
     },
     {
       path: '/home',
