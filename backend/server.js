@@ -73,20 +73,18 @@ app.use(cors({
 
 // Configure session middleware
 app.use(session({
-  store: new pgSession({
-    pool: pool,
-    tableName: 'session' 
-  }),
+  store: new RedisStore({ client: redisClient }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production', // Make sure this is true in production
     httpOnly: true,
-    sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000
+    sameSite: 'None', 
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
+
 
 
 // Default route or health check
