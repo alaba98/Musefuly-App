@@ -45,11 +45,11 @@ export default function Layout() {
         },
         {
             path: '/login',
-            element: isAuthenticated ? <Navigate to="/feed" /> : <Login />,  
+            element: <Login />,  
         },
         {
             path: '/signup',
-            element: isAuthenticated ? <Navigate to="/feed" /> : <Signup />, 
+            element: <Signup />,  
         },
         {
             path: '/home',
